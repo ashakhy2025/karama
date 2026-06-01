@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -637,51 +637,28 @@ body{font-family:'Tajawal',Tahoma,'Arial Unicode MS',Arial,sans-serif;background
       </button>
     </div>
 
-    <!-- TAB: MEMBER (OTP) -->
+    <!-- TAB: MEMBER (Password) -->
     <div id="login-tab-member" class="login-body">
 
-      <!-- STEP A: Phone -->
-      <div class="otp-step active" id="step-phone">
-        <label class="login-label">رقم هاتفك</label>
-        <div class="login-hint">أدخلي رقم هاتفك المسجل، سيصلك رمز تحقق عبر رسالة SMS.</div>
-        <div class="phone-wrap">
-          <div class="phone-prefix">+218</div>
-          <input class="login-input" id="phoneInput" type="tel" placeholder="09XXXXXXXX" maxlength="10" inputmode="numeric">
-        </div>
-        <button class="btn-login" onclick="sendOTP()">إرسال رمز التحقق</button>
-        <div class="or-line">أو</div>
-        <button class="btn-register-link" onclick="showScreen('welcome')">طلب انضمام جديد</button>
+      <label class="login-label">رقم هاتفك</label>
+      <div class="login-hint">أدخلي رقم هاتفك المسجّل في الجمعية.</div>
+      <div class="phone-wrap" style="margin-bottom:16px">
+        <div class="phone-prefix">+218</div>
+        <input class="login-input" id="phoneInput" type="tel" placeholder="09XXXXXXXX" maxlength="10" inputmode="numeric">
       </div>
 
-      <!-- STEP B: OTP -->
-      <div class="otp-step" id="step-otp">
-        <div class="sms-indicator">
-          <div>
-            <div class="sms-bubble">
-              رمز تحقق جمعية الكرامة:<br>
-              <strong id="mockCode">——————</strong>
-            </div>
-            <div class="sms-sender">SMS · الآن</div>
-          </div>
-        </div>
-        <label class="login-label">أدخلي الرمز المكوّن من 6 أرقام</label>
-        <div class="login-hint">أُرسل إلى: <strong id="phoneMask">—</strong></div>
-        <input class="login-input otp-input" id="otpInput" type="text" placeholder="· · · · · ·" maxlength="6" inputmode="numeric" oninput="checkOTP()">
-        <button class="btn-login" id="verifyBtn" onclick="verifyOTP()" style="opacity:.5;pointer-events:none">تحقق ودخول</button>
-        <div class="otp-countdown">
-          إعادة إرسال الرمز بعد <span id="countdownVal">60</span> ثانية<br>
-          <button class="resend-link" id="resendBtn" onclick="resendOTP()">إعادة الإرسال</button>
-        </div>
+      <label class="login-label">كلمة المرور</label>
+      <div class="login-hint">أدخلي كلمة المرور التي أرسلتها لك الإدارة عبر واتساب.</div>
+      <div style="position:relative;margin-bottom:6px">
+        <input id="memberPassInput" type="password" placeholder="••••••••" class="login-input" style="width:100%;box-sizing:border-box;padding-left:44px" onkeydown="if(event.key==='Enter')doMemberLogin()">
+        <button onclick="toggleMemberPass()" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--ink3)">👁</button>
       </div>
 
-      <!-- STEP C: Routing -->
-      <div class="otp-step" id="step-routing">
-        <div style="text-align:center;padding:24px 0">
-          <div style="font-size:32px;margin-bottom:12px">⏳</div>
-          <div style="font-size:15px;font-weight:600;color:var(--ink2)">جارٍ التحقق من صلاحياتك...</div>
-          <div style="font-size:12px;color:var(--ink3);margin-top:6px">سيتم توجيهك تلقائياً</div>
-        </div>
-      </div>
+      <div id="member-login-err" style="display:none;font-size:12px;color:var(--red);background:rgba(184,50,50,.06);border:1px solid rgba(184,50,50,.15);border-radius:8px;padding:8px 12px;margin:10px 0;text-align:center"></div>
+
+      <button class="btn-login" onclick="doMemberLogin()" style="margin-top:12px">دخول ←</button>
+      <div class="or-line">أو</div>
+      <button class="btn-register-link" onclick="showScreen('welcome')">طلب انضمام جديد</button>
 
     </div>
 
@@ -913,6 +890,32 @@ body{font-family:'Tajawal',Tahoma,'Arial Unicode MS',Arial,sans-serif;background
       مراسلة إدارة الجمعية (مبسوطة عبد الرازق)
     </button>
 
+    <!-- إعدادات العضو -->
+    <div style="background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:16px">
+      <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;cursor:pointer" onclick="toggleMemberSettings()">
+        <span style="font-size:18px">⚙️</span>
+        <span style="font-size:15px;font-weight:700;color:var(--ink)">إعدادات الحساب</span>
+        <span id="member-settings-arrow" style="margin-right:auto;color:var(--ink3);font-size:14px">▼</span>
+      </div>
+      <div id="member-settings-panel" style="display:none;padding:20px">
+        <div style="font-size:14px;font-weight:700;color:var(--ink2);margin-bottom:14px">🔑 تغيير كلمة المرور</div>
+        <label style="font-size:12px;font-weight:600;color:var(--ink3);display:block;margin-bottom:5px">كلمة المرور الحالية</label>
+        <div style="position:relative;margin-bottom:12px">
+          <input id="ms-current-pass" type="password" placeholder="••••••••" style="width:100%;padding:11px 14px;padding-left:40px;border:1.5px solid var(--border);border-radius:10px;font-family:Tajawal,Tahoma,Arial,sans-serif;font-size:14px;box-sizing:border-box;outline:none">
+          <button onclick="const i=document.getElementById('ms-current-pass');i.type=i.type==='password'?'text':'password'" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--ink3)">👁</button>
+        </div>
+        <label style="font-size:12px;font-weight:600;color:var(--ink3);display:block;margin-bottom:5px">كلمة المرور الجديدة</label>
+        <div style="position:relative;margin-bottom:12px">
+          <input id="ms-new-pass" type="password" placeholder="8 أحرف على الأقل" style="width:100%;padding:11px 14px;padding-left:40px;border:1.5px solid var(--border);border-radius:10px;font-family:Tajawal,Tahoma,Arial,sans-serif;font-size:14px;box-sizing:border-box;outline:none">
+          <button onclick="const i=document.getElementById('ms-new-pass');i.type=i.type==='password'?'text':'password'" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--ink3)">👁</button>
+        </div>
+        <label style="font-size:12px;font-weight:600;color:var(--ink3);display:block;margin-bottom:5px">تأكيد كلمة المرور الجديدة</label>
+        <input id="ms-confirm-pass" type="password" placeholder="أعيدي كتابة كلمة المرور" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:Tajawal,Tahoma,Arial,sans-serif;font-size:14px;box-sizing:border-box;outline:none;margin-bottom:14px">
+        <div id="ms-pass-msg" style="display:none;font-size:12px;padding:8px 12px;border-radius:8px;margin-bottom:12px;text-align:center"></div>
+        <button onclick="saveMemberSettingsPass()" style="width:100%;padding:12px;background:var(--ink);color:#fff;border:none;border-radius:10px;font-family:Tajawal,Tahoma,Arial,sans-serif;font-size:14px;font-weight:700;cursor:pointer">حفظ كلمة المرور الجديدة</button>
+      </div>
+    </div>
+
     <div class="logout-row">
       <button class="logout-btn" onclick="showScreen('home')">← تسجيل الخروج</button>
     </div>
@@ -965,7 +968,7 @@ body{font-family:'Tajawal',Tahoma,'Arial Unicode MS',Arial,sans-serif;background
         <div id="reg-success" style="display:none;text-align:center;padding:20px 0">
           <div style="font-size:36px;margin-bottom:10px">✅</div>
           <div style="font-size:16px;font-weight:700;color:var(--green);margin-bottom:6px">تم إرسال طلبك بنجاح</div>
-          <div style="font-size:13px;color:var(--ink3)">سيتم مراجعته من قِبل الإدارة والتواصل معك قريباً</div>
+          <div style="font-size:13px;color:var(--ink3)">سيتم مراجعة طلبك من قِبل الإدارة والتواصل معكِ عبر واتساب على رقمك المسجّل</div>
           <button onclick="showScreen('home')" style="margin-top:16px;background:none;border:1px solid var(--border);padding:8px 20px;border-radius:8px;font-family:'Tajawal',Tahoma,Arial,sans-serif;font-size:13px;cursor:pointer;color:var(--ink2)">العودة للرئيسية</button>
         </div>
       </div>
@@ -1742,91 +1745,126 @@ function loadEmptyMemberDashboard(phone) {
   { const _ss = document.querySelector('.status-sub'); if (_ss) _ss.textContent = 'طلبك قيد المراجعة من الإدارة'; }
 }
 
-// ── OTP Flow ──
-let countdownTimer;
-let mockOTP = '';
+// ── Member Password Login ──
+function toggleMemberPass() {
+  const inp = document.getElementById('memberPassInput');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
 
-function sendOTP() {
+function doMemberLogin() {
   const phone = document.getElementById('phoneInput').value.trim();
-  if (!phone || phone.length < 9) { alert('أدخلي رقم هاتف صحيح'); return; }
-  const btn = document.querySelector('#step-phone .btn-login');
-  btn.textContent = 'جارٍ الإرسال...';
-  btn.classList.add('loading');
-  mockOTP = Math.floor(100000 + Math.random() * 900000).toString();
-  setTimeout(() => {
-    document.getElementById('step-phone').classList.remove('active');
-    document.getElementById('step-otp').classList.add('active');
-    const masked = '+218 ' + phone.slice(0,2) + '•••' + phone.slice(-2);
-    document.getElementById('phoneMask').textContent = masked;
-    document.getElementById('mockCode').textContent = mockOTP;
-    startCountdown();
-    btn.textContent = 'إرسال رمز التحقق';
-    btn.classList.remove('loading');
-  }, 1400);
-}
+  const pass  = document.getElementById('memberPassInput').value.trim();
+  const err   = document.getElementById('member-login-err');
+  err.style.display = 'none';
 
-function checkOTP() {
-  const val = document.getElementById('otpInput').value;
-  const btn = document.getElementById('verifyBtn');
-  btn.style.opacity = val.length === 6 ? '1' : '.5';
-  btn.style.pointerEvents = val.length === 6 ? 'auto' : 'none';
-}
-
-function verifyOTP() {
-  const entered = document.getElementById('otpInput').value.trim();
-  if (entered !== mockOTP) {
-    document.getElementById('otpInput').style.borderColor = 'var(--red)';
-    document.getElementById('otpInput').style.boxShadow = '0 0 0 3px rgba(184,50,50,.12)';
-    setTimeout(() => {
-      document.getElementById('otpInput').style.borderColor = '';
-      document.getElementById('otpInput').style.boxShadow = '';
-    }, 2000);
+  if (!phone || phone.length < 9) {
+    err.style.display = 'block';
+    err.textContent = '⚠️ أدخلي رقم هاتف صحيح';
     return;
   }
-  clearInterval(countdownTimer);
-  document.getElementById('step-otp').classList.remove('active');
-  document.getElementById('step-routing').classList.add('active');
-  setTimeout(() => {
-    const phone = document.getElementById('phoneInput').value.trim();
-    const normPhone = phone.replace(/^0+/, '');
-    const members = JSON.parse(localStorage.getItem('karama_members') || '[]');
-    const requests = JSON.parse(localStorage.getItem('karama_requests') || '[]');
-    const member = members.find(m => m.phone && m.phone.replace(/^0+/, '') === normPhone);
-    const pendingReq = requests.find(r => r.phone && r.phone.replace(/^0+/, '') === normPhone);
-    if (member) {
-      loadMemberDashboard(member);
-      showScreen('member');
-    } else {
-      document.getElementById('step-routing').classList.remove('active');
-      document.getElementById('step-phone').classList.add('active');
-      document.getElementById('otpInput').value = '';
-      document.getElementById('phoneInput').value = '';
-      showNotMemberModal(pendingReq ? 'pending' : 'none');
-    }
-  }, 1600);
+  if (!pass) {
+    err.style.display = 'block';
+    err.textContent = '⚠️ أدخلي كلمة المرور';
+    return;
+  }
+
+  const normPhone = phone.replace(/^0+/, '');
+  const members = JSON.parse(localStorage.getItem('karama_members') || '[]');
+  const requests = JSON.parse(localStorage.getItem('karama_requests') || '[]');
+  const member = members.find(m => m.phone && m.phone.replace(/^0+/, '') === normPhone);
+  const pendingReq = requests.find(r => r.phone && r.phone.replace(/^0+/, '') === normPhone && r.status !== 'rejected');
+
+  if (!member) {
+    err.style.display = 'block';
+    err.textContent = pendingReq ? '⏳ طلبك قيد المراجعة — سيتم التواصل معكِ عبر واتساب' : '❌ رقم الهاتف غير مسجّل في الجمعية';
+    return;
+  }
+
+  // Check password
+  const savedPass = member.password || '';
+  if (!savedPass) {
+    err.style.display = 'block';
+    err.textContent = '⚠️ لم يتم تعيين كلمة مرور بعد — تواصلي مع الإدارة';
+    return;
+  }
+  if (pass !== savedPass) {
+    err.style.display = 'block';
+    err.textContent = '❌ كلمة المرور غير صحيحة';
+    return;
+  }
+
+  // Login success
+  loadMemberDashboard(member);
+  showScreen('member');
+
+  // If temporary password — show change password prompt
+  if (member.mustChangePass) {
+    setTimeout(() => {
+      showMemberChangePassModal();
+    }, 800);
+  }
 }
 
-function startCountdown() {
-  let sec = 60;
-  document.getElementById('countdownVal').textContent = sec;
-  document.getElementById('resendBtn').style.display = 'none';
-  countdownTimer = setInterval(() => {
-    sec--;
-    document.getElementById('countdownVal').textContent = sec;
-    if (sec <= 0) {
-      clearInterval(countdownTimer);
-      document.querySelector('.otp-countdown').innerHTML =
-        '<button class="resend-link" id="resendBtn" onclick="resendOTP()" style="display:inline">إعادة إرسال الرمز</button>';
-    }
-  }, 1000);
+function showMemberChangePassModal() {
+  const old = document.getElementById('must-change-pass-modal');
+  if (old) old.remove();
+  const modal = document.createElement('div');
+  modal.id = 'must-change-pass-modal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(3px)';
+  modal.innerHTML = `
+    <div style="background:#fff;border-radius:20px;width:100%;max-width:420px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.3);font-family:'Tajawal',Tahoma,Arial,sans-serif;direction:rtl">
+      <div style="background:linear-gradient(135deg,#14110e,#2a231b);padding:24px;text-align:center">
+        <div style="font-size:40px;margin-bottom:10px">🔐</div>
+        <div style="font-size:18px;font-weight:700;color:#fff">تغيير كلمة المرور المؤقتة</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5);margin-top:4px">يجب تغيير كلمة المرور قبل المتابعة</div>
+      </div>
+      <div style="padding:24px">
+        <label style="font-size:13px;font-weight:600;color:var(--ink2);display:block;margin-bottom:6px">كلمة المرور الجديدة</label>
+        <div style="position:relative;margin-bottom:14px">
+          <input id="mcp-new" type="password" placeholder="8 أحرف على الأقل" style="width:100%;padding:12px 16px;padding-left:44px;border:1.5px solid var(--border);border-radius:10px;font-family:'Tajawal',Tahoma,Arial,sans-serif;font-size:15px;box-sizing:border-box;outline:none" oninput="checkMemberPassStrength()">
+          <button onclick="const i=document.getElementById('mcp-new');i.type=i.type==='password'?'text':'password'" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px">👁</button>
+        </div>
+        <label style="font-size:13px;font-weight:600;color:var(--ink2);display:block;margin-bottom:6px">تأكيد كلمة المرور</label>
+        <input id="mcp-confirm" type="password" placeholder="أعيدي كتابة كلمة المرور" style="width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:'Tajawal',Tahoma,Arial,sans-serif;font-size:15px;box-sizing:border-box;outline:none;margin-bottom:14px">
+        <div id="mcp-msg" style="display:none;font-size:12px;padding:8px 12px;border-radius:8px;margin-bottom:12px;text-align:center"></div>
+        <button onclick="saveMemberNewPass()" style="width:100%;padding:13px;background:var(--ink);color:#fff;border:none;border-radius:12px;font-family:'Tajawal',Tahoma,Arial,sans-serif;font-size:15px;font-weight:700;cursor:pointer">حفظ كلمة المرور الجديدة</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
 }
 
-function resendOTP() {
-  mockOTP = Math.floor(100000 + Math.random() * 900000).toString();
-  document.getElementById('mockCode').textContent = mockOTP;
-  document.getElementById('otpInput').value = '';
-  checkOTP();
-  startCountdown();
+function checkMemberPassStrength() {
+  const p = document.getElementById('mcp-new').value;
+  // simple visual feedback via border color
+  const inp = document.getElementById('mcp-new');
+  if (p.length === 0) { inp.style.borderColor = 'var(--border)'; return; }
+  inp.style.borderColor = p.length >= 8 ? 'var(--green)' : 'var(--red)';
+}
+
+function saveMemberNewPass() {
+  const np = document.getElementById('mcp-new').value.trim();
+  const cp = document.getElementById('mcp-confirm').value.trim();
+  const msg = document.getElementById('mcp-msg');
+  if (np.length < 8) {
+    msg.style.display='block'; msg.style.background='rgba(184,50,50,.08)'; msg.style.color='var(--red)';
+    msg.textContent='⚠️ كلمة المرور يجب أن تكون 8 أحرف على الأقل'; return;
+  }
+  if (np !== cp) {
+    msg.style.display='block'; msg.style.background='rgba(184,50,50,.08)'; msg.style.color='var(--red)';
+    msg.textContent='❌ كلمتا المرور غير متطابقتان'; return;
+  }
+  // Save new password
+  const phone = document.getElementById('phoneInput').value.trim().replace(/^0+/, '');
+  const members = JSON.parse(localStorage.getItem('karama_members') || '[]');
+  const idx = members.findIndex(m => m.phone && m.phone.replace(/^0+/, '') === phone);
+  if (idx >= 0) {
+    members[idx].password = np;
+    members[idx].mustChangePass = false;
+    localStorage.setItem('karama_members', JSON.stringify(members));
+  }
+  msg.style.display='block'; msg.style.background='rgba(26,107,74,.08)'; msg.style.color='var(--green)';
+  msg.textContent='✅ تم حفظ كلمة المرور بنجاح!';
+  setTimeout(() => { document.getElementById('must-change-pass-modal').remove(); }, 1500);
 }
 
 // ── Admin Login ──
@@ -1927,13 +1965,17 @@ function approveRequest(btn, idx) {
   const req = requests[idx];
   if (!req) return;
 
+  // Generate temporary password
+  const chars = 'abcdefghjkmnpqrstuvwxyz23456789';
+  let tempPass = '';
+  for (let i = 0; i < 8; i++) tempPass += chars[Math.floor(Math.random() * chars.length)];
+
   // Mark request as approved
   req.status = 'approved';
   localStorage.setItem('karama_requests', JSON.stringify(requests));
 
   // Add to members list
   const members = JSON.parse(localStorage.getItem('karama_members') || '[]');
-  // Avoid duplicates by phone
   const exists = members.find(m => m.phone === req.phone);
   if (!exists) {
     const newMember = {
@@ -1944,7 +1986,9 @@ function approveRequest(btn, idx) {
       joinDate: new Date().toLocaleDateString('ar-LY', {timeZone:'Africa/Tripoli'}),
       paidMonths: 0,
       paymentStatus: 'في الانتظار',
-      payments: []
+      payments: [],
+      password: tempPass,
+      mustChangePass: true
     };
     members.push(newMember);
     localStorage.setItem('karama_members', JSON.stringify(members));
@@ -1956,6 +2000,29 @@ function approveRequest(btn, idx) {
     row.style.pointerEvents = 'none';
     row.querySelector('.req-actions').innerHTML = '<span style="color:var(--green);font-size:12px;font-weight:700">✓ تم القبول وإضافته للأعضاء</span>';
   }
+
+  // Open WhatsApp with welcome message
+  const siteUrl = 'https://ashakhy2025.github.io/karama';
+  const waNum = localStorage.getItem('karama_whatsapp_num') || '';
+  const phone = req.phone.replace(/^0/, '218');
+  const msg = `🎉 تم قبولك في جمعية الكرامة للادخار التعاوني
+
+عزيزتي ${req.name}،
+
+يسعدنا إعلامك بقبول طلب انضمامك في جمعيتنا.
+
+🔑 كلمة المرور المؤقتة: *${tempPass}*
+
+📲 الرجاء الدخول إلى لوحة العضو عبر الرابط:
+${siteUrl}
+
+ثم اذهبي إلى الإعدادات وقومي بتغيير كلمة المرور المؤقتة فوراً.
+
+مرحباً بكِ في عائلة الكرامة 💛`;
+
+  setTimeout(() => {
+    window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(msg), '_blank');
+  }, 400);
 
   // Refresh members tab
   renderAdminMembers();
@@ -3263,7 +3330,59 @@ function resetMembershipCounter() {
 }
 
 
-// ── مودال الإعدادات ── (محول إلى تبويب — الدالة محفوظة للتوافق)
+// ── Member Settings ──
+function toggleMemberSettings() {
+  const panel = document.getElementById('member-settings-panel');
+  const arrow = document.getElementById('member-settings-arrow');
+  if (panel.style.display === 'none') {
+    panel.style.display = 'block';
+    arrow.textContent = '▲';
+  } else {
+    panel.style.display = 'none';
+    arrow.textContent = '▼';
+  }
+}
+
+function saveMemberSettingsPass() {
+  const cur  = document.getElementById('ms-current-pass').value.trim();
+  const np   = document.getElementById('ms-new-pass').value.trim();
+  const conf = document.getElementById('ms-confirm-pass').value.trim();
+  const msg  = document.getElementById('ms-pass-msg');
+
+  function showMsg(text, isErr) {
+    msg.style.display = 'block';
+    msg.style.background = isErr ? 'rgba(184,50,50,.08)' : 'rgba(26,107,74,.08)';
+    msg.style.color = isErr ? 'var(--red)' : 'var(--green)';
+    msg.style.border = '1px solid ' + (isErr ? 'rgba(184,50,50,.2)' : 'rgba(26,107,74,.2)');
+    msg.textContent = text;
+    if (!isErr) setTimeout(() => { msg.style.display='none'; }, 3000);
+  }
+
+  if (!cur) { showMsg('⚠️ أدخلي كلمة المرور الحالية', true); return; }
+  if (np.length < 8) { showMsg('⚠️ كلمة المرور الجديدة يجب أن تكون 8 أحرف على الأقل', true); return; }
+  if (np !== conf) { showMsg('❌ كلمتا المرور غير متطابقتان', true); return; }
+
+  // Find current member
+  const phone = document.getElementById('phoneInput').value.trim().replace(/^0+/, '');
+  const members = JSON.parse(localStorage.getItem('karama_members') || '[]');
+  const idx = members.findIndex(m => m.phone && m.phone.replace(/^0+/, '') === phone);
+
+  if (idx < 0) { showMsg('❌ تعذّر العثور على بياناتك', true); return; }
+  if (members[idx].password !== cur) { showMsg('❌ كلمة المرور الحالية غير صحيحة', true); return; }
+
+  members[idx].password = np;
+  members[idx].mustChangePass = false;
+  localStorage.setItem('karama_members', JSON.stringify(members));
+
+  // Clear fields
+  ['ms-current-pass','ms-new-pass','ms-confirm-pass'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  showMsg('✅ تم تغيير كلمة المرور بنجاح', false);
+}
+
+
+
 function openSettingsModal() {
   showAdminTab('settings');
 }
