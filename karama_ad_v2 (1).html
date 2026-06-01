@@ -1,0 +1,311 @@
+﻿
+<script>
+/* ═══════════════════════════════════════════
+   ⚙️  الإعدادات — عدّل هنا فقط
+═══════════════════════════════════════════ */
+const CONFIG = {
+  whatsapp : '218924318350',           // ← رقم WhatsApp (مع كود الدولة بدون +)
+  siteUrl  : 'https://karama2025.github.io/karama', // ← رابط الموقع
+  waMsg    : 'السلام عليكم، أود الاستفسار عن الانضمام لجمعية الكرامة'
+};
+/* ════════════════════════════════════════ */
+
+function openSite() {
+  window.open(CONFIG.siteUrl, '_blank');
+}
+function openWA() {
+  window.open(
+    'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(CONFIG.waMsg),
+    '_blank'
+  );
+}
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0;}
+.wrap{font-family:'Cairo',sans-serif;direction:rtl;max-width:500px;margin:0 auto;}
+
+/* ── Facebook post shell ── */
+.fb-shell{
+  background:#fff;
+  border-radius:12px;
+  border:1px solid #ddd;
+  overflow:hidden;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+.fb-header{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px 8px;
+}
+.fb-avatar{
+  width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(135deg,#b8955a,#f5d77e);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:17px;color:#fff;flex-shrink:0;
+}
+.fb-page-name{font-size:14px;font-weight:700;color:#050505;direction:rtl;}
+.fb-meta{font-size:12px;color:#65676b;display:flex;align-items:center;gap:4px;direction:rtl;}
+.fb-globe{font-size:11px;}
+.fb-sponsored{font-size:11px;color:#65676b;}
+.fb-body{padding:0 14px 10px;direction:rtl;}
+.fb-text{font-size:15px;color:#050505;line-height:1.6;margin-bottom:10px;}
+.fb-text .highlight{color:#b8955a;font-weight:700;}
+
+/* ── Ad creative card ── */
+.creative{
+  background:linear-gradient(160deg,#0d1b2a 0%,#1a3352 60%,#0d2640 100%);
+  padding:28px 24px 22px;
+  position:relative;overflow:hidden;
+}
+.creative::before{
+  content:'';position:absolute;
+  width:300px;height:300px;border-radius:50%;
+  border:1px solid rgba(184,149,90,.15);
+  top:-120px;left:-80px;pointer-events:none;
+}
+.creative::after{
+  content:'';position:absolute;
+  width:200px;height:200px;border-radius:50%;
+  border:1px solid rgba(184,149,90,.1);
+  bottom:-60px;right:-40px;pointer-events:none;
+}
+.tag-pill{
+  display:inline-block;
+  background:rgba(184,149,90,.18);
+  border:1px solid rgba(184,149,90,.4);
+  color:#f5d77e;
+  font-size:11px;font-weight:700;
+  padding:4px 14px;border-radius:20px;
+  margin-bottom:16px;letter-spacing:1px;
+}
+.headline{
+  font-size:28px;font-weight:900;color:#fff;
+  line-height:1.2;margin-bottom:4px;
+}
+.headline em{color:#f5d77e;font-style:normal;}
+.sub-line{font-size:13px;color:#e8e8e8;margin-bottom:20px;}
+
+.prize-row{
+  background:rgba(184,149,90,.12);
+  border:1.5px solid rgba(184,149,90,.5);
+  border-radius:14px;
+  padding:14px 18px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;
+}
+.prize-label{font-size:11px;color:#e8e8e8;}
+.prize-val{font-size:34px;font-weight:900;color:#f5d77e;direction:ltr;line-height:1;}
+.prize-cur{font-size:14px;color:#c9a84c;font-weight:700;}
+
+.mini-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:18px;}
+.mini-card{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;padding:10px 8px;text-align:center;
+}
+.mc-icon{font-size:18px;margin-bottom:4px;}
+.mc-val{font-size:13px;font-weight:700;color:#fff;}
+.mc-lbl{font-size:10px;color:#e8e8e8;}
+
+.steps-row{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:20px;
+}
+.step-item{text-align:center;}
+.step-circle{
+  width:26px;height:26px;border-radius:50%;
+  background:linear-gradient(135deg,#b8955a,#f5d77e);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:900;color:#1a1a2e;
+  margin:0 auto 5px;
+}
+.step-txt{font-size:10px;color:#e8e8e8;line-height:1.4;}
+
+.cta-row{display:flex;gap:8px;}
+.cta-primary{
+  flex:1;
+  background:linear-gradient(135deg,#b8955a,#f5d77e);
+  border:none;border-radius:10px;
+  padding:12px;
+  color:#1a1a2e;font-family:'Cairo',sans-serif;
+  font-size:14px;font-weight:900;
+  cursor:pointer;transition:transform .15s,opacity .15s;
+  text-align:center;
+}
+.cta-primary:hover{opacity:.9;transform:scale(1.02);}
+.cta-wa{
+  background:linear-gradient(135deg,#25d366,#128c7e);
+  border:none;border-radius:10px;
+  padding:12px 14px;
+  cursor:pointer;transition:transform .15s,opacity .15s;
+  display:flex;align-items:center;justify-content:center;
+}
+.cta-wa:hover{opacity:.9;transform:scale(1.02);}
+
+/* ── Facebook action bar ── */
+.fb-link-strip{
+  background:#f0f2f5;
+  padding:8px 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid #ddd;
+}
+.fb-domain{font-size:11px;color:#65676b;text-transform:uppercase;}
+.fb-link-title{font-size:13px;font-weight:700;color:#050505;}
+.fb-link-sub{font-size:12px;color:#65676b;}
+.fb-link-btn{
+  background:#e4e6eb;border:none;border-radius:6px;
+  padding:6px 14px;font-size:13px;font-weight:600;color:#050505;
+  cursor:pointer;white-space:nowrap;font-family:inherit;
+}
+.fb-link-btn:hover{background:#d8dadf;}
+.fb-reactions{
+  padding:6px 14px;border-top:1px solid #ddd;
+  display:flex;gap:2px;align-items:center;
+}
+.react-btn{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:5px;
+  padding:6px;border-radius:6px;border:none;background:transparent;
+  font-size:13px;font-weight:600;color:#65676b;cursor:pointer;
+  font-family:inherit;
+}
+.react-btn:hover{background:#f0f2f5;}
+</style>
+
+<div class="wrap">
+<div class="fb-shell">
+
+  <!-- Header -->
+  <div class="fb-header">
+    <div class="fb-avatar">ك</div>
+    <div style="flex:1">
+      <div class="fb-page-name">جمعية الكرامة 🏅</div>
+      <div class="fb-meta">
+        <span class="fb-sponsored">ممول</span>
+        <span>·</span>
+        <span class="fb-globe">🌐</span>
+      </div>
+    </div>
+    <div style="font-size:20px;color:#65676b;cursor:pointer;">···</div>
+  </div>
+
+  <!-- Post text -->
+  <div class="fb-body">
+    <div class="fb-text">
+      💰 هل تريد <span class="highlight">50,000 دينار</span> بدفع شهري بسيط؟<br>
+      انضم لجمعيتنا المنظمة — سداد <span class="highlight">1,000 د/شهر</span> فقط وادخل القرعة!<br>
+      <br>
+      ✅ نظام شفاف ومنظم رقمياً<br>
+      ✅ لوحة متابعة خاصة لكل عضو<br>
+      ✅ تواصل مباشر مع الإدارة<br>
+      <br>
+      👇 اضغط <span class="highlight">سجّل الآن</span> وابدأ رحلتك
+    </div>
+  </div>
+
+  <!-- Creative -->
+  <div class="creative">
+    <div class="tag-pill">✦ جمعية الكرامة ✦</div>
+    <div class="headline">فرصتك تبدأ<br>بـ <em>1,000</em> أو <em>500</em> دينار</div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+      <span style="background:rgba(245,215,126,.15);border:1px solid rgba(245,215,126,.35);border-radius:20px;padding:4px 14px;font-size:12px;color:#f5d77e;font-weight:700">سهم كامل ← 1,000 د/شهر</span>
+      <span style="color:#e8e8e8;font-size:12px">أو</span>
+      <span style="background:rgba(245,215,126,.15);border:1px solid rgba(245,215,126,.35);border-radius:20px;padding:4px 14px;font-size:12px;color:#f5d77e;font-weight:700">نصف سهم ← 500 د/شهر</span>
+    </div>
+    <div class="sub-line">اشترك شهرياً وادخل قرعة الـ 50,000</div>
+
+    <div class="prize-row">
+      <div>
+        <div class="prize-label">🏆 جائزة القرعة الشهرية</div>
+        <div style="margin-top:2px;font-size:10px;color:#e8e8e8;">تُسحب كل شهر بين الأعضاء</div>
+      </div>
+      <div style="text-align:left">
+        <div class="prize-val">50,000</div>
+        <div class="prize-cur">دينار</div>
+      </div>
+    </div>
+
+    <div class="mini-cards">
+      <div class="mini-card">
+        <div class="mc-icon">💵</div>
+        <div class="mc-val">1,000 د</div>
+        <div class="mc-lbl">شهرياً فقط</div>
+      </div>
+      <div class="mini-card">
+        <div class="mc-icon">🎯</div>
+        <div class="mc-val">50,000 د</div>
+        <div class="mc-lbl">قيمة الجائزة</div>
+      </div>
+      <div class="mini-card">
+        <div class="mc-icon">📱</div>
+        <div class="mc-val">100%</div>
+        <div class="mc-lbl">رقمي وشفاف</div>
+      </div>
+    </div>
+
+    <!-- سهم كامل -->
+    <div style="font-size:10px;color:#e8e8e8;margin-bottom:6px;text-align:center;letter-spacing:.05em">▸ سهم كامل</div>
+    <div class="steps-row" style="margin-bottom:10px">
+      <div class="step-item">
+        <div class="step-circle">1</div>
+        <div class="step-txt">سجّل عبر الموقع</div>
+      </div>
+      <div class="step-item">
+        <div class="step-circle">2</div>
+        <div class="step-txt">ادفع 1,000 شهرياً</div>
+      </div>
+      <div class="step-item">
+        <div class="step-circle">3</div>
+        <div class="step-txt">فوز بـ 50,000 🎉</div>
+      </div>
+    </div>
+    <!-- نصف سهم -->
+    <div style="font-size:10px;color:#e8e8e8;margin-bottom:6px;text-align:center;letter-spacing:.05em">▸ نصف سهم</div>
+    <div class="steps-row">
+      <div class="step-item">
+        <div class="step-circle" style="background:linear-gradient(135deg,#5a8ab8,#7ab0d4)">1</div>
+        <div class="step-txt">سجّل عبر الموقع</div>
+      </div>
+      <div class="step-item">
+        <div class="step-circle" style="background:linear-gradient(135deg,#5a8ab8,#7ab0d4)">2</div>
+        <div class="step-txt">ادفع 500 شهرياً</div>
+      </div>
+      <div class="step-item">
+        <div class="step-circle" style="background:linear-gradient(135deg,#5a8ab8,#7ab0d4)">3</div>
+        <div class="step-txt">فوز بـ 25,000 🎉</div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <button class="cta-primary" onclick="openSite()">
+        🚀 سجّلي طلب انضمامك الآن
+      </button>
+    </div>
+    <div style="margin-top:10px;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.3);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;direction:rtl">
+      <span style="font-size:22px">💬</span>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#25d366">تواصل مباشر مع الإدارة عبر واتساب</div>
+        <div style="font-size:10px;color:#e8e8e8;margin-top:2px">متاح من داخل لوحة العضو بعد التسجيل</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link strip -->
+  <div class="fb-link-strip">
+    <div>
+      <div class="fb-domain">karama2025.github.io</div>
+      <div class="fb-link-title">جمعية الكرامة — انضمي الآن</div>
+      <div class="fb-link-sub">سجّلي طلبك وابدئي ادخارك اليوم</div>
+    </div>
+    <button class="fb-link-btn" onclick="openSite()">انضمي الآن</button>
+  </div>
+
+  <!-- Reactions bar -->
+  <div class="fb-reactions">
+    <button class="react-btn">👍 أعجبني</button>
+    <button class="react-btn">💬 تعليق</button>
+    <button class="react-btn">↗ مشاركة</button>
+  </div>
+
+</div>
+</div>
