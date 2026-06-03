@@ -3175,6 +3175,8 @@ function confirmModalReceipt(memberName, phone) {
 ` +
       `💵 إجمالي المدفوع: ${(monthNum * monthly).toLocaleString()} د.ل
 ` +
+      `⏳ المتبقي للإكمال: ${((50 - monthNum) * monthly).toLocaleString()} د.ل (${50 - monthNum} شهراً)
+` +
       `📋 رقم الإيصال: KR-${now.getFullYear()}-${String(monthNum).padStart(3,'0')}
 ` +
       `📆 تاريخ الإصدار: ${now.toLocaleDateString('ar-LY', {timeZone:'Africa/Tripoli'})}
@@ -3569,6 +3571,8 @@ function confirmIssueReceipt(name, phone, monthName, monthNum) {
       `💰 المبلغ المسدد: 1,000 د.ل
 ` +
       `💵 إجمالي المدفوع: ${(monthNum * 1000).toLocaleString()} د.ل
+` +
+      `⏳ المتبقي للإكمال: ${((50 - monthNum) * 1000).toLocaleString()} د.ل (${50 - monthNum} شهراً)
 ` +
       `📋 رقم الإيصال: KR-${new Date().getFullYear()}-${String(monthNum).padStart(3,'0')}
 ` +
