@@ -3479,11 +3479,30 @@ function confirmIssueReceipt(name, phone, monthName, monthNum) {
   };
   triggerMakeReceiptWebhook(receiptPayload);
 
+  // ══ فتح واتساب مباشرة برسالة الإيصال ══
+  if (phone) {
+    const cleanPhone = phone.replace(/^0/, '218').replace(/\D/g, '');
+    const waMessage = encodeURIComponent(
+      `🧾 *إيصال سداد رسمي — جمعية الكرامة*\n\n` +
+      `👤 العضو: ${name}\n` +
+      `📅 الشهر: ${monthName}\n` +
+      `🔢 رقم الشهر: ${monthNum} من أصل 50\n` +
+      `💰 المبلغ المسدد: 1,000 د.ل\n` +
+      `💵 إجمالي المدفوع: ${(monthNum * 1000).toLocaleString()} د.ل\n` +
+      `📋 رقم الإيصال: KR-${new Date().getFullYear()}-${String(monthNum).padStart(3,'0')}\n` +
+      `📆 تاريخ الإصدار: ${new Date().toLocaleDateString('ar-LY', {timeZone:'Africa/Tripoli'})}\n\n` +
+      `✅ تم تسجيل سدادك بنجاح — شكراً لك`
+    );
+    setTimeout(() => {
+      window.open(`https://wa.me/${cleanPhone}?text=${waMessage}`, '_blank');
+    }, 500);
+  }
+
   // رسالة نجاح ثم مسح الحقول
   const btn = document.querySelector('[onclick="issueSmartReceipt()"]');
   if (btn) {
     const orig = btn.innerHTML;
-    btn.innerHTML = '✅ تم الحفظ بنجاح';
+    btn.innerHTML = '✅ تم الحفظ — جارٍ فتح واتساب...';
     btn.style.background = 'var(--green)';
     setTimeout(() => {
       btn.innerHTML = orig;
