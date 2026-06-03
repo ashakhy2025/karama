@@ -1033,17 +1033,17 @@ body{font-family:'Tajawal',Tahoma,'Arial Unicode MS',Arial,sans-serif;background
         </div>
 
         <label style="font-size:13px;font-weight:600;color:var(--ink2);display:block;margin-bottom:6px">الاسم الكامل</label>
-        <input id="reg-name" type="text" placeholder="الاسم الرباعي" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Tajawal',Tahoma,Arial,sans-serif;font-size:14px;background:#faf8f4;outline:none;margin-bottom:16px;box-sizing:border-box">
+        <input id="reg-name" type="text" placeholder="الاسم الرباعي" autocomplete="off" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Tajawal',Tahoma,Arial,sans-serif;font-size:14px;background:#faf8f4;outline:none;margin-bottom:16px;box-sizing:border-box">
 
         <label style="font-size:13px;font-weight:600;color:var(--ink2);display:block;margin-bottom:6px">رقم الهاتف</label>
-        <input id="reg-phone" type="tel" placeholder="09XXXXXXXX" maxlength="10" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Tajawal',Tahoma,Arial,sans-serif;font-size:14px;background:#faf8f4;outline:none;margin-bottom:6px;box-sizing:border-box" oninput="checkRegPhone()">
+        <input id="reg-phone" type="tel" placeholder="09XXXXXXXX" maxlength="10" autocomplete="off" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Tajawal',Tahoma,Arial,sans-serif;font-size:14px;background:#faf8f4;outline:none;margin-bottom:6px;box-sizing:border-box" oninput="checkRegPhone()">
         <div id="reg-phone-hint" style="display:none;font-size:12px;color:var(--red);margin-bottom:12px;padding:6px 10px;background:rgba(184,50,50,.06);border-radius:6px"></div>
 
         <label style="font-size:13px;font-weight:600;color:var(--ink2);display:block;margin-bottom:6px">جهة العمل</label>
-        <input id="reg-workplace" type="text" placeholder="مثال: مدرسة الشهيد باحي" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Tajawal',Tahoma,Arial,sans-serif;font-size:14px;background:#faf8f4;outline:none;margin-bottom:16px;box-sizing:border-box">
+        <input id="reg-workplace" type="text" placeholder="مثال: مدرسة الشهيد باحي" autocomplete="off" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Tajawal',Tahoma,Arial,sans-serif;font-size:14px;background:#faf8f4;outline:none;margin-bottom:16px;box-sizing:border-box">
 
         <label style="font-size:13px;font-weight:600;color:var(--ink2);display:block;margin-bottom:6px">المسمى الوظيفي</label>
-        <input id="reg-job" type="text" placeholder="معلمة / موظفة ..." style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Tajawal',Tahoma,Arial,sans-serif;font-size:14px;background:#faf8f4;outline:none;margin-bottom:16px;box-sizing:border-box">
+        <input id="reg-job" type="text" placeholder="معلمة / موظفة ..." autocomplete="off" style="width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-family:'Tajawal',Tahoma,Arial,sans-serif;font-size:14px;background:#faf8f4;outline:none;margin-bottom:16px;box-sizing:border-box">
 
         <label style="font-size:13px;font-weight:600;color:var(--ink2);display:block;margin-bottom:8px">نوع السهم المطلوب</label>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px" id="share-type-group">
@@ -2087,7 +2087,7 @@ function doMemberLogin() {
 
   if (!member) {
     err.style.display = 'block';
-    err.textContent = pendingReq ? '⏳ طلبك قيد المراجعة — سيتم التواصل معكِ عبر واتساب' : '❌ رقم الهاتف غير مسجّل في الجمعية';
+    err.textContent = pendingReq ? '⏳ طلبك قيد المراجعة — سيتم التواصل معكِ عبر واتساب' : 'رقم الهاتف غير مسجّل، يمكنك الانضمام للجمعية';
     return;
   }
 
@@ -3936,7 +3936,7 @@ function showNotMemberModal(status) {
   if (status === 'pending') {
     msg.innerHTML = '<strong>⏳ طلبك قيد المراجعة</strong><br><br>رقم هاتفك موجود في قائمة الطلبات وهو قيد المراجعة من قِبل الإدارة. سيتم إعلامك فور قبول طلبك.';
   } else {
-    msg.innerHTML = 'عذراً، رقم هاتفك <strong>غير مسجّل</strong> كعضو في جمعية الكرامة.<br><br>للاستفادة من خدمات الجمعية يرجى تقديم طلب انضمام أولاً وانتظار موافقة الإدارة.';
+    msg.innerHTML = 'رقم الهاتف غير مسجّل، يمكنك الانضمام للجمعية';
   }
   document.getElementById('not-member-modal').style.display = 'flex';
 }
